@@ -85,5 +85,5 @@ public class ApacheMatrixWrapper implements MatrixWrapper {
         return new ApacheMatrixWrapper(wrappedMatrix.transpose());
     }
 
-    public static class NotApacheMatrixWrapper extends RuntimeException {}
+    private static class NotApacheMatrixWrapper extends RuntimeException {}
 }

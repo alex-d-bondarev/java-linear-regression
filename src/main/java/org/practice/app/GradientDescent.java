@@ -24,5 +24,5 @@ public class GradientDescent {
         return theta;
     }
 
-    public static class NoTrainingExamples extends RuntimeException {}
+    private static class NoTrainingExamples extends RuntimeException {}
 }

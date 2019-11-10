@@ -4,8 +4,6 @@ import org.junit.Test;
 import org.practice.app.file.FileLoader;
 import org.practice.app.wrapper.MatrixWrapper;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.assertEquals;
 import static org.practice.app.wrapper.apache.ApacheMatrixWrapper.createFrom;
 

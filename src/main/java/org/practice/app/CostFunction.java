@@ -17,5 +17,5 @@ public class CostFunction {
         }
     }
 
-    public static class NoTrainingExamples extends RuntimeException {}
+    private static class NoTrainingExamples extends RuntimeException {}
 }
