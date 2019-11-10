@@ -4,24 +4,29 @@ import org.junit.Test;
 import org.practice.app.file.FileLoader;
 import org.practice.app.wrapper.MatrixWrapper;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.practice.app.wrapper.apache.ApacheMatrixWrapper.createFrom;
 
-public class CostFunctionTest {
+public class GradientDescentTest {
 
     @Test
-    public void constFunctionCanPredict(){
+    public void gradientDescentOptimizesCostFunction(){
         String testInputFilePath = "src/test/resources/org/practice/app/testInput.txt";
         double[][] testInput = FileLoader.arrayFromFile(testInputFilePath);
         MatrixWrapper X = createFrom(getXWithColumnOfOnes(testInput));
         MatrixWrapper y = createFrom(getYColumnAsMatrix(testInput));
         MatrixWrapper theta = createFrom(generateTheta());
-        double expectedResult = 32.07;
-        double delta = 0.01;
+        int iterations = 1500;
+        double alpha = 0.01;
+        double costFunctionBeforeGradientDescent = CostFunction.computeCost(X, y, theta);
+        theta = GradientDescent.calculateNewTheta(X, y, theta, alpha, iterations);
+        double costFunctionAfterGradientDescent = CostFunction.computeCost(X, y, theta);
+        double minimumDifference = 25;
 
-        assertEquals(expectedResult, CostFunction.computeCost(X, y, theta), delta);
+        assertTrue(costFunctionAfterGradientDescent < costFunctionBeforeGradientDescent - minimumDifference);
+
+        System.out.println("Before gradient descent: " + costFunctionBeforeGradientDescent);
+        System.out.println("After gradient descent: " + costFunctionAfterGradientDescent);
     }
 
     private double[][] getXWithColumnOfOnes(double[][] matrix){

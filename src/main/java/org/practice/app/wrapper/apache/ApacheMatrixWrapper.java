@@ -41,6 +41,12 @@ public class ApacheMatrixWrapper implements MatrixWrapper {
     }
 
     @Override
+    public MatrixWrapper multiplyEach(double multiplier) {
+        RealMatrix newMatrix = wrappedMatrix.copy();
+        return new ApacheMatrixWrapper(newMatrix.scalarMultiply(multiplier));
+    }
+
+    @Override
     public MatrixWrapper subtract(MatrixWrapper matrix) {
         if (matrix instanceof ApacheMatrixWrapper) {
             ApacheMatrixWrapper anotherMatrix = (ApacheMatrixWrapper) matrix;
