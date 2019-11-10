@@ -4,17 +4,19 @@ import org.practice.app.wrapper.MatrixWrapper;
 
 public class CostFunction {
     public static double computeCost(MatrixWrapper X, MatrixWrapper y, MatrixWrapper theta){
-        int numOfTrainingExamples = y.getLargestDimensionSize();
-
-        if(numOfTrainingExamples == 0){
+        if(y.getAmountOfRows() == 0){
             throw new NoTrainingExamples();
         } else {
-
-            MatrixWrapper hypothesisVector = X.multiply(theta);
-            double featuresSum = hypothesisVector.subtract(y).squareEachELementOfMatrix().getColumnSum(0);
-
-            return 1 / ((double )2 * numOfTrainingExamples) * featuresSum;
+            return computeTrainableCostFunction(X, y, theta);
         }
+    }
+
+    private static double computeTrainableCostFunction(MatrixWrapper X, MatrixWrapper y, MatrixWrapper theta) {
+        int firstColumn = 0;
+
+        MatrixWrapper hypothesisVector = X.multiply(theta);
+        double featuresSum = hypothesisVector.subtract(y).squareEachELementOfMatrix().getColumnSum(firstColumn);
+        return 1 / ((double )2 * y.getAmountOfRows()) * featuresSum;
     }
 
     private static class NoTrainingExamples extends RuntimeException {}

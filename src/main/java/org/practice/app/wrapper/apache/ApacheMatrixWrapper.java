@@ -41,7 +41,7 @@ public class ApacheMatrixWrapper implements MatrixWrapper {
     }
 
     @Override
-    public MatrixWrapper multiplyEach(double multiplier) {
+    public MatrixWrapper multiplyEachElement(double multiplier) {
         RealMatrix newMatrix = wrappedMatrix.copy();
         return new ApacheMatrixWrapper(newMatrix.scalarMultiply(multiplier));
     }
@@ -66,11 +66,8 @@ public class ApacheMatrixWrapper implements MatrixWrapper {
     }
 
     @Override
-    public int getLargestDimensionSize() {
-        int numOfRows = wrappedMatrix.getRowDimension();
-        int numOfColumns = wrappedMatrix.getColumnDimension();
-
-        return Math.max(numOfColumns, numOfRows);
+    public int getAmountOfRows() {
+        return wrappedMatrix.getRowDimension();
     }
 
     @Override
