@@ -2,12 +2,12 @@ package org.practice.app;
 
 import org.practice.app.file.FileLoader;
 
+@SuppressWarnings("WeakerAccess")
 public class LinearTestDataProvider {
-    private String testInputFilePath;
     private double[][] testInput;
 
     public LinearTestDataProvider() {
-        testInputFilePath = "src/test/resources/org/practice/app/testInput.txt";
+        String testInputFilePath = "src/test/resources/org/practice/app/testInput.txt";
         testInput = FileLoader.arrayFromFile(testInputFilePath);
     }
 

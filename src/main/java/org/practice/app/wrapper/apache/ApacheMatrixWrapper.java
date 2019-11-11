@@ -10,11 +10,11 @@ import java.util.stream.DoubleStream;
 public class ApacheMatrixWrapper implements MatrixWrapper {
     private final RealMatrix wrappedMatrix;
 
-    private ApacheMatrixWrapper(double[][] matrixArray){
+    private ApacheMatrixWrapper(double[][] matrixArray) {
         wrappedMatrix = new Array2DRowRealMatrix(matrixArray);
     }
 
-    private ApacheMatrixWrapper(RealMatrix matrix){
+    private ApacheMatrixWrapper(RealMatrix matrix) {
         wrappedMatrix = matrix;
     }
 
@@ -30,14 +30,12 @@ public class ApacheMatrixWrapper implements MatrixWrapper {
 
     @Override
     public MatrixWrapper multiply(MatrixWrapper matrix) {
-        if (matrix instanceof ApacheMatrixWrapper) {
-            ApacheMatrixWrapper anotherMatrix = (ApacheMatrixWrapper) matrix;
-            RealMatrix result = this.wrappedMatrix.multiply(anotherMatrix.wrappedMatrix);
-            return new ApacheMatrixWrapper(result);
-        }
-        else {
-            throw new NotApacheMatrixWrapper();
-        }
+        throwExceptionIfNotApacheMatrixWrapper(matrix);
+
+        ApacheMatrixWrapper anotherMatrix = (ApacheMatrixWrapper) matrix;
+        RealMatrix result = this.wrappedMatrix.multiply(anotherMatrix.wrappedMatrix);
+
+        return new ApacheMatrixWrapper(result);
     }
 
     @Override
@@ -48,14 +46,17 @@ public class ApacheMatrixWrapper implements MatrixWrapper {
 
     @Override
     public MatrixWrapper subtract(MatrixWrapper matrix) {
-        if (matrix instanceof ApacheMatrixWrapper) {
-            ApacheMatrixWrapper anotherMatrix = (ApacheMatrixWrapper) matrix;
-            RealMatrix result = this.wrappedMatrix.subtract(anotherMatrix.wrappedMatrix);
-            return new ApacheMatrixWrapper(result);
-        }
-        else {
+        throwExceptionIfNotApacheMatrixWrapper(matrix);
+
+        ApacheMatrixWrapper anotherMatrix = (ApacheMatrixWrapper) matrix;
+        RealMatrix result = this.wrappedMatrix.subtract(anotherMatrix.wrappedMatrix);
+
+        return new ApacheMatrixWrapper(result);
+    }
+
+    private void throwExceptionIfNotApacheMatrixWrapper(MatrixWrapper matrix) {
+        if (!(matrix instanceof ApacheMatrixWrapper))
             throw new NotApacheMatrixWrapper();
-        }
     }
 
     @Override
@@ -73,7 +74,6 @@ public class ApacheMatrixWrapper implements MatrixWrapper {
     @Override
     public double getColumnSum(int columnIndex) {
         double[] column = wrappedMatrix.getColumn(columnIndex);
-
         return DoubleStream.of(column).sum();
     }
 
@@ -82,5 +82,7 @@ public class ApacheMatrixWrapper implements MatrixWrapper {
         return new ApacheMatrixWrapper(wrappedMatrix.transpose());
     }
 
-    private static class NotApacheMatrixWrapper extends RuntimeException {}
+    @SuppressWarnings("WeakerAccess")
+    public static class NotApacheMatrixWrapper extends RuntimeException {
+    }
 }

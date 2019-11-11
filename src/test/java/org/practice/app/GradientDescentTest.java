@@ -18,10 +18,10 @@ public class GradientDescentTest {
         MatrixWrapper X = createFrom(dataProvider.getXWithColumnOfOnes());
         MatrixWrapper y = createFrom(dataProvider.getYColumnAsMatrix());
         MatrixWrapper theta = createFrom(dataProvider.generateTheta());
-
         double costFunctionBeforeGradientDescent = CostFunction.computeCost(X, y, theta);
-        theta = GradientDescent.calculateNewTheta(X, y, theta, alpha, iterations);
-        double costFunctionAfterGradientDescent = CostFunction.computeCost(X, y, theta);
+
+        MatrixWrapper optimizedTheta = GradientDescent.calculateNewTheta(X, y, theta, alpha, iterations);
+        double costFunctionAfterGradientDescent = CostFunction.computeCost(X, y, optimizedTheta);
 
         assertTrue(costFunctionAfterGradientDescent < costFunctionBeforeGradientDescent - minimumDifference);
     }

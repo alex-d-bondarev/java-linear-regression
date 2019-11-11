@@ -2,13 +2,15 @@ package org.practice.app;
 
 import org.practice.app.wrapper.MatrixWrapper;
 
+@SuppressWarnings("WeakerAccess")
 public class CostFunction {
-    public static double computeCost(MatrixWrapper X, MatrixWrapper y, MatrixWrapper theta){
-        if(y.getAmountOfRows() == 0){
+
+    public static double computeCost(MatrixWrapper X, MatrixWrapper y, MatrixWrapper theta) {
+        if (y.getAmountOfRows() == 0) {
             throw new NoTrainingExamples();
-        } else {
-            return computeTrainableCostFunction(X, y, theta);
         }
+
+        return computeTrainableCostFunction(X, y, theta);
     }
 
     private static double computeTrainableCostFunction(MatrixWrapper X, MatrixWrapper y, MatrixWrapper theta) {
@@ -16,8 +18,9 @@ public class CostFunction {
 
         MatrixWrapper hypothesisVector = X.multiply(theta);
         double featuresSum = hypothesisVector.subtract(y).squareEachELementOfMatrix().getColumnSum(firstColumn);
-        return 1 / ((double )2 * y.getAmountOfRows()) * featuresSum;
+        return 1 / ((double) 2 * y.getAmountOfRows()) * featuresSum;
     }
 
-    private static class NoTrainingExamples extends RuntimeException {}
+    private static class NoTrainingExamples extends RuntimeException {
+    }
 }

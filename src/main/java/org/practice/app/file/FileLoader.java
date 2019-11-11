@@ -12,8 +12,7 @@ public class FileLoader {
         double[][] doubles;
         String fileLineDelimeter = ",";
 
-        doubles = convertListOfStringsToDoublesArray(
-                getListOfFileLineStrings(filePath),
+        doubles = convertListOfStringsToDoublesArray(getListOfFileLineStrings(filePath),
                 fileLineDelimeter);
 
         return doubles;
@@ -29,23 +28,20 @@ public class FileLoader {
         doubles = new double[rows][columns];
 
         for (int i = 0; i < lines.size(); i++) {
-            doubles[i] = Arrays.stream(lines.get(i).split(delimeter)).mapToDouble(Double::parseDouble)
-                    .toArray();
+            doubles[i] = Arrays.
+                    stream(lines.get(i).split(delimeter)).
+                    mapToDouble(Double::parseDouble).
+                    toArray();
         }
         return doubles;
     }
 
     private static List<String> getListOfFileLineStrings(String filePath) {
-        List<String> lines;
-
         try {
-            lines = readFileLines(filePath);
+            return readFileLines(filePath);
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
-
-        return lines;
     }
 
     private static List<String> readFileLines(String filePath) throws IOException {
